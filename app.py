@@ -8,6 +8,20 @@ from firebase import Firebase
 app = Flask("kimhr-api")
 
 
+@app.errorhandler(405)
+def make_405(e):
+    """
+    make 405
+    """
+    return APIResponse().make_405()
+
+@app.errorhandler(500)
+def make_500(e):
+    """
+    make 500
+    """
+    return APIResponse().make_500()
+
 @app.route("/companies/<string:id_>", methods=["GET", "PUT"])
 @app.route("/companies", methods=["GET", "POST"])
 def companies(id_=None):
@@ -22,7 +36,7 @@ def companies(id_=None):
     elif request.method == "PUT":
         data = Firebase(child).update(request.get_json())
 
-    elif request.method == "GET":
+    else:
         data = Firebase(child).get(id_)
 
     return APIResponse(data).make_response()
@@ -41,7 +55,7 @@ def positions(id_=None):
     elif request.method == "PUT":
         data = Firebase(child).update(request.get_json())
 
-    elif request.method == "GET":
+    else:
         data = Firebase(child).get(id_)
 
     return APIResponse(data).make_response()
@@ -60,7 +74,7 @@ def questions(id_=None):
     elif request.method == "PUT":
         data = Firebase(child).update(request.get_json())
 
-    elif request.method == "GET":
+    else:
         data = Firebase(child).get(id_)
 
     return APIResponse(data).make_response()
@@ -79,7 +93,7 @@ def candidates(id_=None):
     elif request.method == "PUT":
         data = Firebase(child).update(request.get_json())
 
-    elif request.method == "GET":
+    else:
         data = Firebase(child).get(id_)
 
     return APIResponse(data).make_response()

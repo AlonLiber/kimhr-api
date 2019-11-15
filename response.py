@@ -5,21 +5,48 @@ from flask import jsonify
 
 class APIResponse(object):
 
-    def __init__(self, data, status=200):
+    def __init__(self, data=None):
         """
         constructor
         """
-        self.status = status
         self.data = data
 
-    def make_response(self):
+    def make_response(self, status=200):
         """
-        get response
+        make response
         """
         return jsonify({
             "meta": {
-                "status": self.status
+                "status": status
             },
 
             "data": self.data
-        })
+        }), status
+
+    def make_405(self):
+        """
+        make 405
+        """
+        return jsonify({
+            "meta": {
+                "status": 405
+            },
+
+            "error": {
+                "message": "method not allowed"
+            }
+        }), 405
+
+    def make_500(self):
+        """
+        make 405
+        """
+        return jsonify({
+            "meta": {
+                "status": 500
+            },
+
+            "error": {
+                "message": "internal server error"
+            }
+        }), 500
