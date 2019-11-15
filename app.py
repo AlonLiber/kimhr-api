@@ -1,76 +1,85 @@
 #!/usr/bin/env python
 
-from db import companies
-from db import positions
-from db import questions
+from response import APIResponse
 from flask import Flask, request
-
-import response
+from firebase import Firebase
 
 # initialize flask
 app = Flask("kimhr-api")
 
 
-@app.route("/companies", defaults={"id_": None}, methods=["GET", "POST"])
 @app.route("/companies/<string:id_>", methods=["GET", "PUT"])
-def companies_(id_):
+@app.route("/companies", methods=["GET", "POST"])
+def companies(id_=None):
     """
+    companies route
     """
+    child = ("companies", "companies/%s" % (id_))[request.method == "PUT"]
+
     if request.method == "POST":
-        return response.make(
-            companies.push(request.get_json())
-        )
+        data = Firebase(child).push(request.get_json())
 
     elif request.method == "PUT":
-        return response.make(
-            companies.update(id_, request.get_json())
-        )
+        data = Firebase(child).update(request.get_json())
 
-    return response.make(
-        companies.get(id_)
-    )
+    elif request.method == "GET":
+        data = Firebase(child).get(id_)
 
-@app.route("/positions", defaults={"id_": None}, methods=["GET", "POST"])
+    return APIResponse(data).make_response()
+
 @app.route("/positions/<string:id_>", methods=["GET", "PUT"])
-def positions_(id_):
+@app.route("/positions", methods=["GET", "POST"])
+def positions(id_=None):
     """
+    companies route
     """
+    child = ("positions", "positions/%s" % (id_))[request.method == "PUT"]
+
     if request.method == "POST":
-        return response.make(
-            positions.push(request.get_json())
-        )
+        data = Firebase(child).push(request.get_json())
 
     elif request.method == "PUT":
-        return response.make(
-            positions.update(id_, request.get_json())
-        )
+        data = Firebase(child).update(request.get_json())
 
-    return response.make(
-        positions.get(id_)
-    )
+    elif request.method == "GET":
+        data = Firebase(child).get(id_)
 
-@app.route("/questions", defaults={"id_": None}, methods=["GET", "POST"])
+    return APIResponse(data).make_response()
+
 @app.route("/questions/<string:id_>", methods=["GET", "PUT"])
-def questions_(id_):
+@app.route("/questions", methods=["GET", "POST"])
+def questions(id_=None):
     """
+    companies route
     """
+    child = ("questions", "questions/%s" % (id_))[request.method == "PUT"]
+
     if request.method == "POST":
-        return response.make(
-            questions.push(request.get_json())
-        )
+        data = Firebase(child).push(request.get_json())
 
     elif request.method == "PUT":
-        return response.make(
-            questions.update(id_, request.get_json())
-        )
+        data = Firebase(child).update(request.get_json())
 
-    return response.make(
-        questions.get(id_)
-    )
+    elif request.method == "GET":
+        data = Firebase(child).get(id_)
 
+    return APIResponse(data).make_response()
 
-def run(options):
+@app.route("/candidates/<string:id_>", methods=["GET", "PUT"])
+@app.route("/candidates", methods=["GET", "POST"])
+def candidates(id_=None):
     """
-    run app
+    companies route
     """
-    app.run(options)
+    child = ("candidates", "candidates/%s" % (id_))[request.method == "PUT"]
+
+    if request.method == "POST":
+        data = Firebase(child).push(request.get_json())
+
+    elif request.method == "PUT":
+        data = Firebase(child).update(request.get_json())
+
+    elif request.method == "GET":
+        data = Firebase(child).get(id_)
+
+    return APIResponse(data).make_response()

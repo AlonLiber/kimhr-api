@@ -1,13 +1,21 @@
 #!/usr/bin/env python
 
-from app import app
 from firebase_admin import credentials
+from app import app
 
 import os
 import sys
 import argparse
 import firebase_admin
 
+
+def firebase_init():
+    """
+    initialize firebase
+    """
+    firebase_admin.initialize_app(credentials.Certificate("firebase-key.json"), {
+        "databaseURL": "https://kimhr-e96a3.firebaseio.com"
+    })
 
 def get_parser():
     """
@@ -19,14 +27,6 @@ def get_parser():
     parser.add_argument("-p", "--port", help="port number", default=5000, required=False)
 
     return parser
-
-def firebase_init():
-    """
-    initialize firebase
-    """
-    firebase_admin.initialize_app(credentials.Certificate("firebase-key.json"), {
-        "databaseURL": "https://kimhr-e96a3.firebaseio.com"
-    })
 
 
 if __name__ == "__main__":

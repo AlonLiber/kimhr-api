@@ -1,16 +1,25 @@
 #!/usr/bin/env python
 
-from flask import jsonify, make_response
+from flask import jsonify
 
 
-def make(data, status_code=200):
-    """
-    build success reponse
-    """
-    payload = jsonify({
-        "data": data
-    })
+class APIResponse(object):
 
-    r = make_response(payload)
+    def __init__(self, data, status=200):
+        """
+        constructor
+        """
+        self.status = status
+        self.data = data
 
-    return r, status_code
+    def make_response(self):
+        """
+        get response
+        """
+        return jsonify({
+            "meta": {
+                "status": self.status
+            },
+
+            "data": self.data
+        })
