@@ -39,7 +39,7 @@ class APIResponse(object):
 
     def make_500(self):
         """
-        make 405
+        make 500
         """
         return jsonify({
             "meta": {

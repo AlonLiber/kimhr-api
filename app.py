@@ -97,3 +97,22 @@ def candidates(id_=None):
         data = Firebase(child).get(id_)
 
     return APIResponse(data).make_response()
+
+@app.route("/answers/<string:id_>", methods=["GET", "PUT"])
+@app.route("/answers", methods=["GET", "POST"])
+def answers(id_=None):
+    """
+    companies route
+    """
+    child = ("answers", "answers/%s" % (id_))[request.method == "PUT"]
+
+    if request.method == "POST":
+        data = Firebase(child).push(request.get_json())
+
+    elif request.method == "PUT":
+        data = Firebase(child).update(request.get_json())
+
+    else:
+        data = Firebase(child).get(id_)
+
+    return APIResponse(data).make_response()
