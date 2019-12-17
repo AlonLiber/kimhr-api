@@ -13,6 +13,7 @@ import sys
 # initialize flask
 app = Flask("kimhr-api")
 
+firebase_init()
 
 @app.errorhandler(405)
 def make_405(e):
@@ -154,9 +155,6 @@ if __name__ == "__main__":
 
         else:
             os.environ["FLASK_ENV"] = "production"
-
-        # initialize firebase
-        firebase_init()
 
         app.run(**{
             "host": "0.0.0.0",
