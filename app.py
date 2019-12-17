@@ -13,7 +13,9 @@ import sys
 # initialize flask
 app = Flask("kimhr-api")
 
-firebase_init()
+firebase_admin.initialize_app(credentials.Certificate("firebase-key.json"), {
+    "databaseURL": "https://kimhr-e96a3.firebaseio.com"
+})
 
 @app.errorhandler(405)
 def make_405(e):
@@ -123,14 +125,6 @@ def answers(id_=None):
         data = Firebase(child).get(id_)
 
     return APIResponse(data).make_response()
-
-def firebase_init():
-    """
-    initialize firebase
-    """
-    firebase_admin.initialize_app(credentials.Certificate("firebase-key.json"), {
-        "databaseURL": "https://kimhr-e96a3.firebaseio.com"
-    })
 
 def get_parser():
     """
