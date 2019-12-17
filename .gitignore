@@ -2,4 +2,3 @@
 *.pyc
 *.DS_Store
 *__pycache__
-*firebase-key.json
