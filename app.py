@@ -9,11 +9,26 @@ import os
 import argparse
 import firebase_admin
 import sys
+import json
 
 # initialize flask
 app = Flask("kimhr-api")
 
-firebase_admin.initialize_app(credentials.Certificate("firebase-key.json"), {
+# load firebase config
+firebase_config = json.load(open("firebase-key.json", "r"))
+
+firebase_admin.initialize_app(credentials.Certificate({
+        "type": os.environ.get("FIREBASE_TYPE") or firebase_config["type"],
+        "project_id": os.environ.get("FIREBASE_PROJECT_ID") or firebase_config["project_id"],
+        "private_key_id": os.environ.get("FIREBASE_PRIVATE_KEY_ID") or firebase_config["private_key_id"],
+        "private_key": os.environ.get("FIREBASE_PRIVATE_KEY") or firebase_config["private_key"],
+        "client_email": os.environ.get("FIREBASE_CLIENT_EMAIL") or firebase_config["client_email"],
+        "client_id": os.environ.get("FIREBASE_CLIENT_ID") or firebase_config["client_id"],
+        "auth_uri": os.environ.get("FIREBASE_AUTH_URI") or firebase_config["auth_uri"],
+        "token_uri": os.environ.get("FIREBASE_TOKEN_URI") or firebase_config["token_uri"],
+        "auth_provider_x509_cert_url": os.environ.get("FIREBASE_AUTH_PROVIDER_X509_CERT_URL") or firebase_config["auth_provider_x509_cert_url"],
+        "client_x509_cert_url": os.environ.get("FIREBASE_CLIENT_X509_CERT_URL") or firebase_config["client_x509_cert_url"]
+    }), {
     "databaseURL": "https://kimhr-e96a3.firebaseio.com"
 })
 
@@ -126,34 +141,17 @@ def answers(id_=None):
 
     return APIResponse(data).make_response()
 
-def get_parser():
-    """
-    configure and get parser
-    """
-    parser = argparse.ArgumentParser("kimhr-api")
-
-    parser.add_argument("-d", "--debug", help="run in debug mode", default=False, action="store_true", required=False)
-    parser.add_argument("-p", "--port", help="port number", default=5000, required=False)
-
-    return parser
-
 if __name__ == "__main__":
     """
     main function
     """
     try:
-        args = get_parser().parse_args()
-
-        if args.debug == True:
-            os.environ["FLASK_ENV"] = "development"
-
-        else:
-            os.environ["FLASK_ENV"] = "production"
+        os.environ["FLASK_ENV"] = "development"
 
         app.run(**{
             "host": "0.0.0.0",
-            "debug": args.debug,
-            "port": args.port
+            "port": 5000,
+            "debug": True
         })
 
     except Exception as e:
