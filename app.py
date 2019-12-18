@@ -14,8 +14,11 @@ import json
 # initialize flask
 app = Flask("kimhr-api")
 
-# load firebase config
-firebase_config = json.load(open("firebase-key.json", "r"))
+try:
+    # load firebase config
+    firebase_config = json.load(open("firebase-key.json", "r"))
+except:
+    print("-D- firebase-key.json not found")
 
 firebase_admin.initialize_app(credentials.Certificate({
         "type": os.environ.get("FIREBASE_TYPE") or firebase_config["type"],
