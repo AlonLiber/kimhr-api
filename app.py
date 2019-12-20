@@ -18,7 +18,7 @@ try:
     fk = json.load(open("firebase-key.json", "r"))
 
 except:
-    pass
+    fk = {}
 
 # initialize firebase
 firebase_admin.initialize_app(credentials.Certificate({
