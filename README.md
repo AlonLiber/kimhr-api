@@ -1,1 +1,1 @@
-# KimHR API
+# kim-hr API
