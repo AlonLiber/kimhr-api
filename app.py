@@ -15,24 +15,23 @@ import json
 app = Flask("kimhr-api")
 
 try:
-    # load firebase config
-    firebase_config = json.load(open("firebase-key.json", "r"))
+    fk = json.load(open("firebase-key.json", "r"))
 
 except:
     pass
 
 # initialize firebase
 firebase_admin.initialize_app(credentials.Certificate({
-        "type": firebase_config.get("type") or os.environ.get("FIREBASE_TYPE"),
-        "project_id": firebase_config.get("project_id") or os.environ.get("FIREBASE_PROJECT_ID"),
-        "private_key_id": firebase_config.get("private_key_id") or os.environ.get("FIREBASE_PRIVATE_KEY_ID"),
-        "private_key": firebase_config["private_key"] or os.environ.get("FIREBASE_PRIVATE_KEY").replace("\\n", "\n"),
-        "client_email": firebase_config.get("client_email") or os.environ.get("FIREBASE_CLIENT_EMAIL"),
-        "client_id": firebase_config.get("client_id") or os.environ.get("FIREBASE_CLIENT_ID"),
-        "auth_uri": firebase_config.get("auth_uri") or os.environ.get("FIREBASE_AUTH_URI"),
-        "token_uri": firebase_config.get("token_uri") or os.environ.get("FIREBASE_TOKEN_URI"),
-        "auth_provider_x509_cert_url": firebase_config.get("auth_provider_x509_cert_url") or os.environ.get("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"),
-        "client_x509_cert_url": firebase_config.get("client_x509_cert_url") or os.environ.get("FIREBASE_CLIENT_X509_CERT_URL")
+        "type": fk.get("type") or os.environ.get("FK_TYPE"),
+        "project_id": fk.get("project_id") or os.environ.get("FK_PROJECT_ID"),
+        "private_key_id": fk.get("private_key_id") or os.environ.get("FK_PRIVATE_KEY_ID"),
+        "private_key": fk["private_key"] or os.environ.get("FK_PRIVATE_KEY").replace("\\n", "\n"),
+        "client_email": fk.get("client_email") or os.environ.get("FK_CLIENT_EMAIL"),
+        "client_id": fk.get("client_id") or os.environ.get("FK_CLIENT_ID"),
+        "auth_uri": fk.get("auth_uri") or os.environ.get("FK_AUTH_URI"),
+        "token_uri": fk.get("token_uri") or os.environ.get("FK_TOKEN_URI"),
+        "auth_provider_x509_cert_url": fk.get("auth_provider_x509_cert_url") or os.environ.get("FK_AUTH_PROVIDER_X509_CERT_URL"),
+        "client_x509_cert_url": fk.get("client_x509_cert_url") or os.environ.get("FK_CLIENT_X509_CERT_URL")
     }), {
     "databaseURL": "https://kimhr-e96a3.firebaseio.com"
 })
