@@ -25,7 +25,7 @@ firebase_admin.initialize_app(credentials.Certificate({
         "type": fk.get("type") or os.environ.get("FK_TYPE"),
         "project_id": fk.get("project_id") or os.environ.get("FK_PROJECT_ID"),
         "private_key_id": fk.get("private_key_id") or os.environ.get("FK_PRIVATE_KEY_ID"),
-        "private_key": fk["private_key"] or os.environ.get("FK_PRIVATE_KEY").replace("\\n", "\n"),
+        "private_key": fk.get("private_key") or os.environ.get("FK_PRIVATE_KEY").replace("\\n", "\n"),
         "client_email": fk.get("client_email") or os.environ.get("FK_CLIENT_EMAIL"),
         "client_id": fk.get("client_id") or os.environ.get("FK_CLIENT_ID"),
         "auth_uri": fk.get("auth_uri") or os.environ.get("FK_AUTH_URI"),
